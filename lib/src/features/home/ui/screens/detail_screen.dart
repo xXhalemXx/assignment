@@ -1,4 +1,6 @@
-import 'package:assignment/src/core/networking/models/product.dart';
+import 'package:assignment/src/core/constants/app_text_styles.dart';
+import 'package:assignment/src/core/helpers/spacing.dart';
+import 'package:assignment/src/core/networking/product_model.dart';
 import 'package:flutter/material.dart';
 
 class DetailScreen extends StatelessWidget {
@@ -9,56 +11,67 @@ class DetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // App Bar
       appBar: AppBar(
         title: Text(product.title),
       ),
-      // Body
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Product Image
-            Center(
-              child: Image.network(
-                product.image,
-                height: 250,
-              ),
-            ),
-            SizedBox(height: 20),
-            // Title
-            Text(
-              product.title,
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            // Price
-            Text(
-              '\$${product.price}',
-              style: TextStyle(fontSize: 20, color: Colors.green),
-            ),
-            SizedBox(height: 10),
-            // Description
-            Text(
-              product.description,
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 20),
-            // Rating
-            Row(
-              children: [
-                Icon(Icons.star, color: Colors.amber),
-                SizedBox(width: 5),
-                Text(
-                  '${product.rating.rate} (${product.rating.count} reviews)',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ],
-            ),
+            _productImage(),
+            verticalSpace(height: 20),
+            _productTitle(),
+            verticalSpace(height: 10),
+            _productPrice(),
+            verticalSpace(height: 10),
+            _productDescription(),
+            verticalSpace(height: 10),
+            _productRating(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _productImage() {
+    return Center(
+      child: Image.network(
+        product.image,
+        height: 250,
+      ),
+    );
+  }
+
+  Widget _productTitle() {
+    return Text(
+      product.title,
+      style: AppTextStyles.defaultFont22Black100Bold1,
+    );
+  }
+
+  Widget _productPrice() {
+    return Text(
+      '\$${product.price}',
+      style: AppTextStyles.defaultFon20Green100regular1,
+    );
+  }
+
+  Widget _productDescription() {
+    return Text(
+      product.description,
+      style: AppTextStyles.defaultFont16Black100regular1,
+    );
+  }
+
+  Widget _productRating() {
+    return Row(
+      children: [
+        const Icon(Icons.star, color: Colors.amber),
+        const SizedBox(width: 5),
+        Text('${product.rating.rate} (${product.rating.count} reviews)',
+            style: AppTextStyles.defaultFont16Black100regular1),
+      ],
     );
   }
 }

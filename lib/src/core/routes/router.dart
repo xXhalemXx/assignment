@@ -2,7 +2,7 @@ library route_pages;
 
 import 'package:assignment/src/core/error/error.dart';
 import 'package:assignment/src/core/injection/injection.dart';
-import 'package:assignment/src/core/networking/models/product.dart';
+import 'package:assignment/src/core/networking/product_model.dart';
 import 'package:assignment/src/core/routes/names.dart';
 import 'package:assignment/src/features/home/logic/products_cubit.dart';
 import 'package:assignment/src/features/home/ui/screens/detail_screen.dart';

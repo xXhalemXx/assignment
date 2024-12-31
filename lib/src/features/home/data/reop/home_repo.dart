@@ -1,5 +1,5 @@
-import 'package:assignment/src/core/networking/api_service/api_service.dart';
-import 'package:assignment/src/core/networking/models/product.dart';
+import 'package:assignment/src/core/networking/api_service.dart';
+import 'package:assignment/src/core/networking/product_model.dart';
 
 class HomeRepo {
   ApiService apiService;

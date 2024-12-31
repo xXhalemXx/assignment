@@ -1,4 +1,4 @@
-import 'package:assignment/src/core/networking/models/product.dart';
+import 'package:assignment/src/core/networking/product_model.dart';
 import 'package:equatable/equatable.dart';
 
 // States

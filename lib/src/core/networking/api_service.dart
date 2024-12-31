@@ -1,5 +1,5 @@
 import 'package:assignment/src/core/constants/app_strings.dart';
-import 'package:assignment/src/core/networking/models/product.dart';
+import 'package:assignment/src/core/networking/product_model.dart';
 import 'package:dio/dio.dart';
 
 // final dio = Dio();

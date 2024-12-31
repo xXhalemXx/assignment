@@ -1,6 +1,6 @@
-import 'package:assignment/src/core/networking/api_service/api_service.dart';
+import 'package:assignment/src/core/networking/api_service.dart';
 import 'package:assignment/src/core/networking/dio_factory.dart';
-import 'package:assignment/src/core/networking/models/product.dart';
+import 'package:assignment/src/core/networking/product_model.dart';
 import 'package:assignment/src/features/home/data/reop/home_repo.dart';
 import 'package:assignment/src/features/home/logic/products_cubit.dart';
 import 'package:dio/dio.dart';

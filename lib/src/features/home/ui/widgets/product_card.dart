@@ -1,4 +1,6 @@
-import 'package:assignment/src/core/networking/models/product.dart';
+import 'package:assignment/src/core/constants/app_text_styles.dart';
+import 'package:assignment/src/core/helpers/spacing.dart';
+import 'package:assignment/src/core/networking/product_model.dart';
 import 'package:assignment/src/core/routes/names.dart';
 import 'package:flutter/material.dart';
 
@@ -22,36 +24,40 @@ class ProductCard extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              // Product Image
-              Expanded(
-                child: Image.network(
-                  product.image,
-                  fit: BoxFit.contain,
-                ),
-              ),
-              const SizedBox(height: 10),
-              // Product Title
-              Text(
-                product.title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 5),
-              // Product Price
-              Text(
-                '\$${product.price}',
-                style: const TextStyle(
-                  color: Colors.green,
-                  fontSize: 16,
-                ),
-              ),
+              _productImage(),
+              verticalSpace(height: 10),
+              _productTitle(),
+              verticalSpace(height: 10),
+              _productPrice(),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _productImage() {
+    return Expanded(
+      child: Image.network(
+        product.image,
+        fit: BoxFit.contain,
+      ),
+    );
+  }
+
+  Widget _productTitle() {
+    return Text(
+      product.title,
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
+      style: AppTextStyles.defaultFontDSizeBlack100Bold1,
+    );
+  }
+
+  Widget _productPrice() {
+    return Text(
+      '\$${product.price}',
+      style: AppTextStyles.defaultFont16Green100regular1,
     );
   }
 }
