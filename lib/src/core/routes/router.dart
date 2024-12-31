@@ -4,6 +4,9 @@ import 'package:assignment/src/core/error/error.dart';
 import 'package:assignment/src/core/injection/injection.dart';
 import 'package:assignment/src/core/networking/product_model.dart';
 import 'package:assignment/src/core/routes/names.dart';
+import 'package:assignment/src/features/authentication/logic/auth_logic/auth_cubit.dart';
+import 'package:assignment/src/features/authentication/logic/country_logic/country_cubit.dart';
+import 'package:assignment/src/features/authentication/ui/screens/form_screen.dart';
 import 'package:assignment/src/features/home/logic/products_cubit.dart';
 import 'package:assignment/src/features/home/ui/screens/detail_screen.dart';
 import 'package:assignment/src/features/home/ui/screens/home_screen.dart';
@@ -15,6 +18,19 @@ class AppRoute {
   static Route<dynamic> generate(RouteSettings? settings) {
     switch (settings?.name) {
       case RoutesName.initial:
+        return MaterialPageRoute(
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(
+                      value: getIt<AuthCubit>(),
+                    ),
+                    BlocProvider.value(
+                      value: getIt<CountryCubit>()..getCountries(),
+                    ),
+                  ],
+                  child: const FormScreen(),
+                ));
+      case RoutesName.home:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: getIt<ProductsCubit>()..fetchProducts(),
