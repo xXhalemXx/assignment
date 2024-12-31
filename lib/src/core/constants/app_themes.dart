@@ -11,5 +11,14 @@ class AppThemes {
       surfaceTintColor: Colors.transparent,
       scrolledUnderElevation: 0.0,
     ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppColors.purple,
+        foregroundColor: AppColors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+      ),
+    ),
   );
 }

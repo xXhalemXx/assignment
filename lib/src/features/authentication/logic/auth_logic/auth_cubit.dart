@@ -1,3 +1,4 @@
+import 'package:assignment/src/core/routes/names.dart';
 import 'package:assignment/src/features/authentication/logic/auth_logic/auth_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
@@ -92,7 +93,7 @@ class AuthCubit extends Cubit<AuthState> {
     return errors.isEmpty;
   }
 
-  Future<void> submitForm() async {
+  Future<void> submitForm({required BuildContext context}) async {
     formKey.currentState!.validate();
     if (!validateForm()) return;
 
@@ -103,5 +104,7 @@ class AuthCubit extends Cubit<AuthState> {
 
     // Handle success
     emit(state.copyWith(isSubmitting: false));
+
+    Navigator.pushNamed(context, RoutesName.home);
   }
 }

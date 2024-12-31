@@ -30,13 +30,13 @@ class AppRoute {
                   ],
                   child: const FormScreen(),
                 ));
-      // case RoutesName.initial:
-      //   return MaterialPageRoute(
-      //     builder: (_) => BlocProvider.value(
-      //       value: getIt<ProductsCubit>()..fetchProducts(),
-      //       child: const HomeScreen(),
-      //     ),
-      //   );
+      case RoutesName.home:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: getIt<ProductsCubit>()..fetchProducts(),
+            child: const HomeScreen(),
+          ),
+        );
 
       case RoutesName.detail:
         Product product = settings!.arguments as Product;

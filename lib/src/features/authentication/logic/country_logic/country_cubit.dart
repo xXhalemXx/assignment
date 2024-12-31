@@ -1,106 +1,92 @@
 import 'dart:convert';
 
-import 'package:assignment/src/core/models/status_model.dart';
+import 'package:assignment/src/core/models/country_model.dart';
 import 'package:assignment/src/features/authentication/logic/country_logic/country_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CountryCubit extends Cubit<CountryStates> {
-  List<String> cities = ["Choose City"];
-  List<String> countries = ["Choose Country"];
-  String selectedCity = "Choose City";
-  String selectedState = "Choose State";
-  List<String> states = ["Choose State"];
-  String selectedCountry = "Choose Country";
-
   CountryCubit() : super(const CountryStates());
 
   GlobalKey<FormFieldState> countryKey = GlobalKey<FormFieldState>();
   GlobalKey<FormFieldState> stateKey = GlobalKey<FormFieldState>();
   GlobalKey<FormFieldState> cityKey = GlobalKey<FormFieldState>();
 
-  Future getResponse() async {
+// to read the countries from the json file
+  Future<List<Country>> readCountriesFromFile() async {
     var res = await rootBundle.loadString('assets/country.json');
-    return jsonDecode(res);
+    List<dynamic> jsonData = json.decode(res);
+    List<Country> countries =
+        jsonData.map((countryJson) => Country.fromJson(countryJson)).toList();
+    return countries;
   }
 
+// to store the countries names in the list
   Future getCountries() async {
-    if (countries.length == 1) {
-      var localCountries = await getResponse() as List;
-      for (var data in localCountries) {
-        countries.add(data['emoji'] + "    " + data['name']);
-        emit(state.copyWith(countries: countries));
-      }
-    }
+    List<Country> countries = await readCountriesFromFile();
+
+    List<String> countryNames = ["Choose Country"];
+    countryNames += countries
+        .map((country) => '${country.emoji}    ${country.name}')
+        .toSet()
+        .toList();
+
+    emit(state.copyWith(countries: countryNames));
   }
 
-  Future<void> getStates({required String selectedCountry}) async {
-    if (states.length == 1) {
-      var response = await getResponse();
-      var stateInResponse = response
-          .map((map) => StatusModel.fromJson(map))
-          .where((item) => item.emoji + "    " + item.name == selectedCountry)
-          .map((item) => item.state)
-          .toList();
-      var localStates = stateInResponse as List;
-      for (var f in localStates) {
-        var name = f.map((item) => item.name).toList();
-        for (var stateName in name) {
-          states.add(stateName.toString());
-        }
-      }
-      emit(state.copyWith(states: states));
-    }
+  Future<void> getStatesByCountry({required String countryName}) async {
+    List<String> parts = countryName.split('    ');
+    List<Country> countries = await readCountriesFromFile();
+    Country? country = countries.firstWhere(
+      (c) => c.name.toLowerCase() == parts[1].toLowerCase(),
+      orElse: () => throw Exception('Country not found'),
+    );
+// to set removes the duplicate values
+    List<String> stateNames = ["Choose State"];
+    stateNames += country.states.map((state) => state.name).toSet().toList();
+    emit(state.copyWith(states: stateNames));
   }
 
-  Future getCites({required String selectedCountry}) async {
-    if (cities.length == 1) {
-      var response = await getResponse();
-      var takeState = response
-          .map((map) => StatusModel.fromJson(map))
-          .where((item) => item.emoji + "    " + item.name == selectedCountry)
-          .map((item) => item.state)
-          .toList();
-      var states = takeState as List;
-      for (var f in states) {
-        var name = f.where((item) => item.name == selectedState);
-        var cityName = name.map((item) => item.city).toList();
-        cityName.forEach((ci) {
-          var citiesNames = ci.map((item) => item.name).toList();
-          for (var cityNames in citiesNames) {
-            //  print(cityNames.toString());
+  Future getCitiesByState({required String stateName}) async {
+    List<Country> countries = await readCountriesFromFile();
 
-            cities.add(cityNames.toString());
-            emit(state.copyWith(cities: cities));
-          }
-        });
-      }
-    }
+    Iterable<StateModel> allStates =
+        countries.expand((country) => country.states);
+
+    StateModel? matchingState = allStates.firstWhere(
+      (state) => state.name.toLowerCase() == stateName.toLowerCase(),
+      orElse: () => throw Exception('State not found'),
+    );
+
+    List<String> cityNames = ["Choose City"];
+    cityNames += matchingState.cities.map((city) => city.name).toSet().toList();
+
+    emit(state.copyWith(cities: cityNames));
   }
 
   void onSelectedCountry(String value) {
-    selectedCity = "Choose City";
-    selectedState = "Choose State";
-    states = ["Choose State"];
-    cities = ["Choose City"];
-    emit(state.copyWith(selectedCountry: value));
+    emit(
+      state.copyWith(
+        selectedCountry: value,
+        selectedState: 'Choose State',
+        selectedCity: 'Choose City',
+      ),
+    );
     countryKey.currentState!.validate();
-    getStates(selectedCountry: value);
+    getStatesByCountry(countryName: value);
   }
 
   void onSelectedState(String value) {
-    selectedCity = "Choose City";
-    cities = ["Choose City"];
-    state.copyWith(selectedCity: "Choose City", cities: ["Choose City"]);
-    selectedState = value;
     stateKey.currentState!.validate();
-    emit(state.copyWith(selectedState: value));
-    getCites(selectedCountry: selectedCountry);
+    emit(state.copyWith(
+      selectedState: value,
+      selectedCity: 'Choose City',
+    ));
+    getCitiesByState(stateName: value);
   }
 
   void onSelectedCity(String value) {
-    selectedCity = value;
     cityKey.currentState!.validate();
     emit(state.copyWith(selectedCity: value));
   }
