@@ -1,3 +1,4 @@
+import 'package:assignment/src/core/constants/app_themes.dart';
 import 'package:assignment/src/core/routes/names.dart';
 import 'package:assignment/src/core/routes/router.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +8,13 @@ class AssignmentApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: AppThemes.defaultTheme,
       debugShowCheckedModeBanner: false,
       initialRoute: RoutesName.initial,
       onGenerateRoute: AppRoute.generate,
     );
   }
 }
+
+class AppBarThemes {}
