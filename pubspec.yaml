@@ -16,6 +16,7 @@ dependencies:
   dio: ^5.7.0
   pretty_dio_logger: ^1.4.0
   intl_phone_number_input: ^0.7.4
+  video_player: ^2.9.2
 
 
 dev_dependencies:
@@ -28,3 +29,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/country.json
+    - assets/videos/sample_video.mp4

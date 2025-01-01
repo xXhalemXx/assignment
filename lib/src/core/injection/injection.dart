@@ -1,10 +1,10 @@
 import 'package:assignment/src/core/networking/api_service.dart';
 import 'package:assignment/src/core/networking/dio_factory.dart';
-import 'package:assignment/src/core/networking/product_model.dart';
 import 'package:assignment/src/features/authentication/logic/auth_logic/auth_cubit.dart';
 import 'package:assignment/src/features/authentication/logic/country_logic/country_cubit.dart';
-import 'package:assignment/src/features/home/data/reop/home_repo.dart';
+import 'package:assignment/src/features/home/data/repo/home_repo.dart';
 import 'package:assignment/src/features/home/logic/products_cubit.dart';
+import 'package:assignment/src/features/video_player/logic/video_cubit.dart';
 import 'package:dio/dio.dart';
 
 import 'package:get_it/get_it.dart';
@@ -27,5 +27,8 @@ Future<void> setupGetIt() async {
   // Authentication Cubit
   getIt.registerLazySingleton<AuthCubit>(() => AuthCubit());
 
+  // Country Cubit
   getIt.registerLazySingleton<CountryCubit>(() => CountryCubit());
+  // Country Cubit
+  getIt.registerLazySingleton<VideoCubit>(() => VideoCubit());
 }
