@@ -10,6 +10,8 @@ import 'package:assignment/src/features/authentication/ui/screens/form_screen.da
 import 'package:assignment/src/features/home/logic/products_cubit.dart';
 import 'package:assignment/src/features/home/ui/screens/detail_screen.dart';
 import 'package:assignment/src/features/home/ui/screens/home_screen.dart';
+import 'package:assignment/src/features/video_player/logic/video_cubit.dart';
+import 'package:assignment/src/features/video_player/ui/screens/video_player_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,7 +39,12 @@ class AppRoute {
             child: const HomeScreen(),
           ),
         );
-
+      case RoutesName.videoPlayer:
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider.value(
+                  value: getIt<VideoCubit>()..initialize(),
+                  child: const VideoPlayerScreen(),
+                ));
       case RoutesName.detail:
         Product product = settings!.arguments as Product;
         return MaterialPageRoute(
