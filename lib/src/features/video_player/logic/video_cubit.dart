@@ -12,7 +12,6 @@ class VideoCubit extends Cubit<VideoState> {
   void initialize() {
     controller = VideoPlayerController.asset('assets/videos/sample_video.mp4')
       ..initialize().then((_) {
-        print('Video initialized!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
         emit(
           state.copyWith(
             isBuffering: false,
